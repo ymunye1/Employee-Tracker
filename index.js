@@ -16,8 +16,12 @@ const db = mysql.createConnection(
 
 console.log('Welcome to Employee Tracker');
 
-inquirer
-.prompt([
+
+
+ const showIntro = () => {
+
+    inquirer
+        .prompt([
     {
         type: 'list',
         name: 'options',
@@ -31,28 +35,24 @@ inquirer
 
         switch (answer.options){
             case "View All Departments":
-            //All department fuction here
-
-            break;
+               return viewAllDepartments();
+                    
+                break;
 
             case "View All Roles":
-                //All roles fuction here
-    
-            break;
+              return viewAllRoles();
+                break;
 
             case "View All Employees":
-                //All Employess fuction here
-    
-            break;
+               return viewAllEmployees();
+                break;
 
             case "Add A Department":
-                //add a department fuction here
-    
-            break;
+                return addDepartment();
+                break;
 
             case "Add A Role":
-                //Add A Role fuction here
-    
+                return addRole();
             break;
 
             case "Update An Employee Role":
@@ -70,40 +70,93 @@ inquirer
             break;
 
         }
+    })
+
+    .catch((err) => {
+        console.log(err)
     });
+}
+
+showIntro()
+
 
     function viewAllDepartments()  { 
         db.query("SELECT * FROM department",(err, result) => {
             err ? console.log(err) : console.table(result)
-        })
+        });
+        
+        return setTimeout(()  => showIntro(), 2000);
+        
     };
 
-    function viewAllRoles()  { 
-        db.query("SELECT * FROM department",(err, result) => {
+    function viewAllRoles() { 
+        db.query("SELECT * FROM role",(err, result) => {
             err ? console.log(err) : console.table(result)
-        })
+        });
+
+        return setTimeout(()  => showIntro(), 2000);
     };
 
     function viewAllEmployees()  { 
-        db.query("SELECT * FROM department",(err, result) => {
+        db.query("SELECT * FROM employee",(err, result) => {
             err ? console.log(err) : console.table(result)
-        })
+        });
+
+        return setTimeout(()  => showIntro(), 2000);
     };
 
-    function addDepartment()  { 
-        db.query("SELECT * FROM department",(err, result) => {
-            err ? console.log(err) : console.table(result)
+    function addDepartment() { 
+
+    inquirer
+     .prompt([
+         {
+            type: 'input',
+            name: 'insertDepartment',
+            message:'What is the department name?',
+         }
+
+     ])
+     .then((answer) => {
+        db.query("INSERT INTO department(name) VALUES(?)",answer.insertDepartment,(err, result) => {
+            err ? console.log(err) : console.table(answer.insertDepartment, 'Has been added to Department')
         })
+     })
+
+       
     };
 
-    function addRole()  { 
-        db.query("SELECT * FROM department",(err, result) => {
-            err ? console.log(err) : console.table(result)
-        })
-    };
+    function addRole() { 
+        inquirer
+         .prompt([
+            {
+                type: 'input',
+                name: 'insertRole',
+                message:'Please add the Title of the role (ex. Service Technician)',
+            },
+            {
+                type: 'input',
+                name: 'insertSalary',
+                message:'Please add the Salary to this role',
+            },
+            {
+                type: 'list',
+                name: 'departments',
+                message:'Which department would you like the roles added to?',
+                choices:['SERVICE,SALES,PARTS,BODY SHOP'],
+            },
+            
+        ])
+        
+        .then((answer) => {
+            db.query("INSERT INTO role (title, salary) Values(?,?)",answer.insertRole,answer.insertSalary,(err, result) => {
+                err ? console.log(err) : console.table(answer.insertRole,'has been added with',answer.insertSalary, 'salalry ', 'to',answer.department ,'Department')
+            })
+        });
+    }
+       
 
 
-    function updateEmployeeRole()  { 
+    function updateEmployeeRole() { 
         db.query("SELECT * FROM department",(err, result) => {
             err ? console.log(err) : console.table(result)
         })
@@ -116,7 +169,7 @@ inquirer
     //     })
     // };
 
-    function Quit()  { 
+    function Quit() { 
         db.query("SELECT * FROM department",(err, result) => {
             err ? console.log(err) : console.table(result)
         })
