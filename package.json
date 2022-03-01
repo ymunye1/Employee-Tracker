@@ -1,0 +1,25 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "Track Employees using this database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ymunye1/Employee-Tracker.git"
+  },
+  "author": "Yasin Munye",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ymunye1/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/ymunye1/Employee-Tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.0",
+    "mysql2": "^2.3.3"
+  }
+}
