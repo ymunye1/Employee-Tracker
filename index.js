@@ -54,17 +54,22 @@ console.log('Welcome to Employee Tracker');
                 return addRole();
             break;
 
+            case "Add An Employee":
+                return addEmployee();
+    
+            break;
+
             case "Update An Employee Role":
                 //Update An Employee Role fuction here
     
             break;
 
-            case 'Search Manager':
-            // search manager fuction    
-            break;
+            // case 'Search Manager':
+            // // search manager fuction    
+            // break;
 
             case 'Quit':
-             return console.log('Existing Program');
+             return quit();
 
             break;
 
@@ -117,7 +122,7 @@ showIntro()
      ])
      .then((answer) => {
         db.query("INSERT INTO department(name) VALUES(?)",answer.insertDepartment,(err, result) => {
-            err ? console.log(err) : console.table(answer.insertDepartment, 'Has been added to Department')
+            err ? console.log(err) : console.table(answer)
         });
         return setTimeout(()  => showIntro(), 2000);
      });
@@ -161,8 +166,50 @@ showIntro()
 }
        
 
+function addEmployee() {
+    
+    db.query("SELECT id AS value, title FROM role",(err, emprole) => {
+        err ? console.log(err) : console.table(emprole); 
+
+    inquirer
+     .prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message:'Please Enter Your First Name:',
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message:'Please Enter Your Last Name:',
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message:'What is the role of the employee',
+            choices: emprole
+        },
+        {
+            type: 'input',
+            name: 'manager_id',
+            message:'Please Enter The ID Of The Manager Of This Employee:',
+        },
+    ])
+    .then((answer) => {
+        db.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) Value(?,?,?,?)",[answer.first_name, answer.last_name, answer.role_id, answer.manager_id],(err, result) => {
+            err ? console.log(err) : console.table(answer)
+        })
+        return setTimeout(()  => showIntro(), 2000);
+    });
+  
+})
+}
+   
 
     function updateEmployeeRole() { 
+
+        
+        
         db.query("SELECT * FROM department",(err, result) => {
             err ? console.log(err) : console.table(result)
         })
@@ -175,10 +222,8 @@ showIntro()
     //     })
     // };
 
-    function Quit() { 
-        db.query("SELECT * FROM department",(err, result) => {
-            err ? console.log(err) : console.table(result)
-        })
+    function quit() { 
+        console.log('Existing Program'), process.exit(0);
     };
     
 
