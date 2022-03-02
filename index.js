@@ -36,7 +36,6 @@ console.log('Welcome to Employee Tracker');
         switch (answer.options){
             case "View All Departments":
                return viewAllDepartments();
-                    
                 break;
 
             case "View All Roles":
@@ -65,7 +64,7 @@ console.log('Welcome to Employee Tracker');
             break;
 
             case 'Quit':
-             // add quit fuctiion
+             return console.log('Existing Program');
 
             break;
 
@@ -81,8 +80,8 @@ showIntro()
 
 
     function viewAllDepartments()  { 
-        db.query("SELECT * FROM department",(err, result) => {
-            err ? console.log(err) : console.table(result)
+        db.query("SELECT * FROM department",(err, depts) => {
+            err ? console.log(err) : console.table(depts)
         });
         
         return setTimeout(()  => showIntro(), 2000);
@@ -113,46 +112,53 @@ showIntro()
             type: 'input',
             name: 'insertDepartment',
             message:'What is the department name?',
-         }
+         },
 
      ])
      .then((answer) => {
         db.query("INSERT INTO department(name) VALUES(?)",answer.insertDepartment,(err, result) => {
             err ? console.log(err) : console.table(answer.insertDepartment, 'Has been added to Department')
-        })
-     })
-
+        });
+        return setTimeout(()  => showIntro(), 2000);
+     });
+     
        
     };
 
     function addRole() { 
+
+        db.query("SELECT id AS value, name FROM department",(err, depts) => {
+            err ? console.log(err) : console.table(depts);   
+
         inquirer
          .prompt([
             {
                 type: 'input',
-                name: 'insertRole',
+                name: 'title',
                 message:'Please add the Title of the role (ex. Service Technician)',
             },
             {
                 type: 'input',
-                name: 'insertSalary',
+                name: 'salary',
                 message:'Please add the Salary to this role',
             },
             {
                 type: 'list',
-                name: 'departments',
-                message:'Which department would you like the roles added to?',
-                choices:['SERVICE,SALES,PARTS,BODY SHOP'],
+                name: 'department_id',
+                message:'Which department does this role belong to?',
+                choices: depts,
             },
             
         ])
         
         .then((answer) => {
-            db.query("INSERT INTO role (title, salary) Values(?,?)",answer.insertRole,answer.insertSalary,(err, result) => {
-                err ? console.log(err) : console.table(answer.insertRole,'has been added with',answer.insertSalary, 'salalry ', 'to',answer.department ,'Department')
-            })
-        });
-    }
+            db.query(`INSERT INTO role (title, salary, department_id) Values(?,?,?)`,[answer.title, answer.salary, answer.department_id],(err, result) => {
+                err ? console.log(err) : console.table(answer)
+                    return setTimeout(()  => showIntro(), 2000);
+            });
+        })
+    })
+}
        
 
 
