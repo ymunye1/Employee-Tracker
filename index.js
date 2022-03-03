@@ -179,22 +179,13 @@ function addEmployee() {
                 id,title,
             };
             empTitleListArray.push(emplTitleObject);
-            emplTitleArray .push(title); 
+            emplTitleArray .push(id); 
         }
         err ? console.log(err) : console.table(empTitleListArray)
     
    
     
-    // db.query('SELECT title FROM role'((err,emprole) => {
-    //     const empTitleArray=[]
 
-    //     emprole.forEach((emp)
-
-    //     err ? console.log(err) : console.table(emprole); 
-    // }
-
-    // db.query("SELECT id AS value, title FROM role",(err, emprole) => {
-    //     err ? console.log(err) : console.table(emprole); 
 
     inquirer
      .prompt([
@@ -211,10 +202,16 @@ function addEmployee() {
         {
             type: 'list',
             name: 'role_id',
-            message:'What is the role of the employee',
+            message:'Please choose the id # for the role this employee belong to. Look at above table for id # of Title',
             choices: emplTitleArray,
-            // choices: emprole,
+           
         },
+        {
+          type: 'input',
+        name: 'manager_id',
+        message:'Please Enter this Employee managers ID', 
+        },
+        
     ])
     .then((answer) => {
         db.query("INSERT INTO employee(first_name, last_name, role_id, manager_id) Value(?,?,?,?)",[answer.first_name, answer.last_name, answer.role_id, answer.manager_id],(err, result) => {
@@ -239,50 +236,66 @@ function addEmployee() {
                     id, first_name, last_name, role_id,
                 };
                 employeeListArray.push(emplObject);
-                emplArray.push(first_name+ ' '+ last_name);
+                emplArray.push(id+ ' ' + first_name+ ' '+ last_name);
             }
             
             
             err ? console.log(err) : console.table(employeeListArray)
 
-        db.query("SELECT id AS value, title FROM role",(err, emprole) => {
-            err ? console.log(err) : console.table(emprole) 
+       
+            
+            
+       
+
+
+        db.query('SELECT * FROM role', (err, res) => {
+            let numTitle = [];
+            for (i = 0; i <res.length; i++) {
+                const{id,title,} = res[i];
+
+                numTitle.push(id+ ' ' + title);
+            }
+            
+            
+            err ? console.log(err) : console.table(numTitle)
+
     
         inquirer
          .prompt ([
             {
                 type: 'list',
-                name: 'employee_selected',
+                name: 'id',
                 message:'Which employee role would you like to update?',
                 choices: emplArray,
             },
             {
                 type: 'list',
-                name: 'new_role',
-                message:'What is their new Role?',
-                choices: emprole,
+                name: 'new_role_id',
+                message:'Please choose the id # for new role of this employee?',
+                choices: numTitle,
             },
         ])
 
-        
-        
-        // db.query("INSERT INTO",(err, result) => {
-        //     err ? console.log(err) : console.table(result)
-        // })
-    });
-    });
-}
+        .then((answer) => {
+            let ab = answer.id.split(" ")
+            let cd = ab[0]
 
-    // function searchManager()  { 
-    //     db.query("SELECT * FROM department",(err, result) => {
-    //         err ? console.log(err) : console.table(result)
-    //     })
-    // };
+            let ef = answer.new_role_id.split(" ")
+            let gh = ef[0]
+
+            db.query("UPDATE employee SET role_id=? WHERE id=?",[gh , cd ],(err, result) => {
+                err ? console.log(err) : console.table(answer)
+            })
+            return setTimeout(()  => showIntro(), 2000);
+        });
+    });
+    })
+    }
 
     function quit() { 
-        console.log('Existing Program'), process.exit(0);
+        console.log('Existing Program.....Good Bye'), process.exit(0);
     };
-    
+ 
 
      
        
