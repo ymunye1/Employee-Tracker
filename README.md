@@ -5,6 +5,16 @@ GITHUB LINK TO MY CODE: https://github.com/ymunye1/Employee-Tracker
 
 [![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](Assets/Screen Shot 2022-03-03 at 1.04.30 AM.png)](https://drive.google.com/file/d/1rsgxtpiD1TakhE0omP526qzk685zkfeq/view)
 
+![Screenshot of video]{Assets/Screen Shot 2022-03-03 at 1.04.30 AM.png}
+
+Installation
+To install necessary dependencies use the following command:
+
+npm i
+
+Usage
+npm start
+
 ## Your Task
 
 Developers frequently have to create interfaces that allow non-developers to easily view and interact with information stored in databases. These interfaces are called **content management systems (CMS)**. Your assignment this week is to build a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL.
@@ -42,6 +52,7 @@ THEN I am prompted to select an employee to update and their new role and this i
 ```
 
 
+[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](Assets/Screen Shot 2022-03-03 at 1.04.30 AM.png)](https://drive.google.com/file/d/1rsgxtpiD1TakhE0omP526qzk685zkfeq/view)
 
 ## Getting Started
 
