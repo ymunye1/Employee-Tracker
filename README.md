@@ -3,9 +3,9 @@ EMPLOYEE TRACKER
 VIDOE LINK TO SCREENCASTIFY: https://drive.google.com/file/d/1rsgxtpiD1TakhE0omP526qzk685zkfeq/view
 GITHUB LINK TO MY CODE: https://github.com/ymunye1/Employee-Tracker
 
-[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](Assets/Screen-Shot-2022-03-03 .png)](https://drive.google.com/file/d/1rsgxtpiD1TakhE0omP526qzk685zkfeq/view)
+[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./Assets/Screen-Shot-2022-03-03 .png)](https://drive.google.com/file/d/1rsgxtpiD1TakhE0omP526qzk685zkfeq/view)
 
-![Screenshot of video](Assets/Screen-Shot-2022-03-03 .png)
+![Screenshot of video](./Assets/Screen-Shot-2022-03-03 .png)
 
 Installation
 To install necessary dependencies use the following command:
